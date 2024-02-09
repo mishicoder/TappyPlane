@@ -8,6 +8,6 @@ const k = kaboom({
 });
 
 loadRoot('resources/');
-//setCursor('none');
+setCursor('none');
 
 export default k;
