@@ -52,6 +52,14 @@ function titleScene(){
         ]);
         playButton.pos.x = (width()/2) - (playButton.quad.w/2);
         playButton.pos.y = 180;
+
+        playButton.onClick(() => {
+            go('gameOver');
+        });
+        playButton.onHover(() => {
+            console.log('test');
+        });
+
         const playStr = 'PLAY';
         onDraw(() => {
             let px = 330;
@@ -106,6 +114,7 @@ function titleScene(){
             }),
             pos(),
             fixed(),
+            anchor('center')
         ]);
 
         onUpdate(() => {
