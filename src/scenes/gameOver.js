@@ -1,7 +1,13 @@
 
 function gameOver(){
 
-	scene('gameOver', () => {});
+	scene('gameOver', () => {
+
+		const msg = 'GAME OVER';
+
+		onDraw(() => {});
+
+	});
 
 }
 
