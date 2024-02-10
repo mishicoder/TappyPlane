@@ -152,7 +152,6 @@ function titleScene(){
             pos(),
             fixed(),
             anchor('center'),
-            'cursor'
         ]);
 
         onMousePress('left', () => {

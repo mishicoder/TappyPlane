@@ -67,8 +67,6 @@ function colorSelector(){
 
         });
 
-        
-
         //* ---------------------------------------------------------------------------------------------
 		//todo AGREGAR OBJETOS
 		//* ---------------------------------------------------------------------------------------------
@@ -77,7 +75,7 @@ function colorSelector(){
             sprite('redPlane', {
                 anim: 'fly'
             }),
-            pos(0, (height()/2) - 36.5),
+            pos(-88, (height()/2) - 36.5),
             {
                 show: true
             },
@@ -124,7 +122,7 @@ function colorSelector(){
         //* ---------------------------------------------------------------------------------------------
 		//todo FUNCIONES DE CONTROL
 		//* ---------------------------------------------------------------------------------------------
-        const allPlanes = get('plane', {recursive: true});
+        const allPlanes = get('plane');
 
         onUpdate(() => {
 
@@ -140,19 +138,6 @@ function colorSelector(){
                 }
             }
 
-            // if(redPlane.show){
-            //     if(redPlane.pos.x < planeX){
-            //         redPlane.pos.x += planeSpeed;
-            //     }
-            //     if(redPlane > planeX) redPlane.pos.x = planeX;
-            // }else{
-            //     if(redPlane.pos.x >= planeX && redPlane.pos.x <= width() + 88) redPlane.pos.x += planeSpeed;
-            //     else redPlane.pos.x = -88;
-            // }
-        });
-
-        onKeyPress('space', () => {
-            redPlane.show = !redPlane.show;
         });
 
         //* ---------------------------------------------------------------------------------------------
@@ -164,6 +149,30 @@ function colorSelector(){
             pos(buttonSpace, (height()/2) - 21),
             area(),
         ]);
+        leftBtn.onClick(() => {
+            for(let i = 0; i < allPlanes.length; i++){
+                allPlanes[i].show = false;
+            }
+            currentColor--;
+            if(currentColor < 0) currentColor = (colors.length - 1);
+
+            switch (currentColor) {
+                case 0: //? Red
+                    redPlane.show = true;
+                    break;
+                case 1: //? Green
+                    greenPlane.show = true;
+                    break;
+                case 2: //? Yellow
+                    yellowPlane.show = true;
+                    break;
+                case 3: //? Blue
+                    bluePlane.show = true;
+                    break;
+                default:
+                    break;
+            }
+        });
 
         const rightBtn = add([
             sprite('tapRight'),
@@ -171,12 +180,9 @@ function colorSelector(){
             area(),
         ]);
         rightBtn.onClick(() => {
-            console.log(allPlanes);
             for(let i = 0; i < allPlanes.length; i++){
                 allPlanes[i].show = false;
             }
-
-            // 'red', 'green', 'yellow', 'blue'
             currentColor++;
             if(currentColor >= colors.length) currentColor = 0;
 
@@ -210,9 +216,8 @@ function colorSelector(){
 		});
 
 		c.onAnimEnd((anim) => {
-			if(anim === 'tap'){
-				c.play('idle');
-			}
+			if(anim === 'tap') c.play('idle');
+
 		});
 
     });
