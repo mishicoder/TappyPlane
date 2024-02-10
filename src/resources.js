@@ -5,6 +5,9 @@ function loadSprites(){
     loadSprite('groundGrass', 'groundGrass.png');
     loadSprite('groundIce', 'groundIce.png');
 
+    // picos
+    loadSprite('rock', 'rock.png');
+
     // carga de planos
     const colors = ['blue', 'green', 'red', 'yellow'];
     for(let i = 0; i < colors.length; i++){

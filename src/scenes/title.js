@@ -53,7 +53,7 @@ function titleScene(){
         playButton.pos.x = (width()/2) - (playButton.quad.w/2);
         playButton.pos.y = 180;
         playButton.onClick(() => {
-            go('gameOver');
+            go('gameplay');
         });
         const playStr = 'PLAY';
         onDraw(() => {
