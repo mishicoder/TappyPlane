@@ -3,43 +3,36 @@ import createRock from "../objects/rock.js";
 function gameplay(){
 
 	scene('gameplay', (options = {
-		cursor
+		cursor, //? pedimos el objeto de cursor por parametro
+		playerSprite,
 	}) => {
 
-		const rockSpeed = 200;
-		let pause = false;
+		//* ---------------------------------------------------------------------------------------------
+		//todo VARIABLES Y CONSTANTES DE CONTROL | FUNCIONES INICIALES
+		//* ---------------------------------------------------------------------------------------------
+		const rockSpeed = 200; //? Velocidad a la que se moveran las rocas
+		let pause = false; //? Determina si el juego esta en pausa
 
-		setGravity(200);
+		setGravity(200); //? Establecemos el valor de la gravedad
 
-		const stateController = add([
-			state('play', ['play', 'pause']),
-		]);
-
-		onKeyPress('escape', () => {
-			pause = !pause;
-
-			if(pause) setGravity(0);
-			else setGravity(200);
-
-			if(pause) stateController.enterState('pause');
-			else stateController.enterState('play');
-		});
-		
-		//todo segunda forma de crear un fondo que se mueve
+		//* ---------------------------------------------------------------------------------------------
+		//todo DIBUJADO DEL FONDO CON EFECTO PARALLAX
+		//* ---------------------------------------------------------------------------------------------
+		//? Fondo parallax
 		/**
-		 ** para ello se necesita dibujar dos veces el fondo
-		 ** tenemos una variable para control de posicion en el eje x para cada fondo
-		 *todo A diferencia del uso de tiled en el sprite, este efecto de parallax consume menos recursos
-		 *todo debido a que no esta dibujando pixeles innecesarios fuera de pantalla.
+		 ** Esta formna de dibujar el fondo parallax es el mas comun, ya que podemos hacer un fondo con efecto de movimiento horizontal
+		 ** Solo hace falta dibujar la imagen de fondo dos veces y hacer que una corra detras de la otra
 		*/
 
-		let bgx1 = 0; 
-		let bgx2 = 800;
+		let bgx1 = 0; //? Posicion en x del primer sprite de fondo
+		let bgx2 = 800; //? Posicion en x del segundo sprite de fondo
 
 		onUpdate(() => {
+			//* Actualizamos la posicion del fondo siemnpre y cuando el juego no este pausado
 			if(!pause) bgx1 -= 2;
 			if(!pause)bgx2 -= 2;
 
+			//* Reposicionamos los sprites de fondo cuando salen de la pantalla
 			if(bgx1 <= -800){
 				bgx1 = 800;
 			}
@@ -49,7 +42,7 @@ function gameplay(){
 		});
 
 		onDraw(() => {
-
+			//* Se dibujan los sprites de fondo, uno siempre sigue al otro para crear el efecto de parallax
 			//! primer dibujado
 			drawSprite({
 				sprite: 'background',
@@ -66,12 +59,6 @@ function gameplay(){
 				pos: vec2(bgx2, 0),
 			});
 		});
-		
-		//setCursor('pointer');
-
-		const rockTimer = add([
-			timer(),
-		]);
 
 		// rockTimer.loop('1.8', () => {
 		// 	add(createRock({
@@ -79,9 +66,23 @@ function gameplay(){
 		// 		x: (width() + 108)
 		// 	}))
 		// });
+		//* ---------------------------------------------------------------------------------------------
+		//todo TEMPORIZADORES
+		//* ---------------------------------------------------------------------------------------------
+		const rockTimer = add([
+			timer(),
+		]);
+
+		const rockDownTimer = add([
+			timer(),
+		]);
+
+		//* ---------------------------------------------------------------------------------------------
+		//todo OBJETOS INICIALES DEL JUEGO
+		//* ---------------------------------------------------------------------------------------------
 
 		const player = add([
-			sprite('yellowPlane'),
+			sprite(options.playerSprite),
 			pos(100, 0),
 			area({
 				shape: new Polygon([
@@ -103,6 +104,12 @@ function gameplay(){
 			body(), 
 			'player'
 		]);
+
+		//* ---------------------------------------------------------------------------------------------
+		//todo FUNCIONES DE CONTROL DE JUEGO
+		//* ---------------------------------------------------------------------------------------------
+
+		
 
 		onUpdate('rock', (rock) => {
 			if(!pause){
@@ -152,8 +159,6 @@ function gameplay(){
 		//* ---------------------------------------------------------------------------------------------
 		//todo CURSOR
 		//* ---------------------------------------------------------------------------------------------
-
-
 		const c = add(options.cursor);
 		onUpdate(() => {
 			c.pos = mousePos();
@@ -171,6 +176,19 @@ function gameplay(){
 		//* ---------------------------------------------------------------------------------------------
 		//todo CONTROL DEL MENU DE PAUSE
 		//* ---------------------------------------------------------------------------------------------
+		const stateController = add([
+			state('play', ['play', 'pause']),
+		]);
+
+		onKeyPress('escape', () => {
+			pause = !pause;
+
+			if(pause) setGravity(0);
+			else setGravity(200);
+
+			if(pause) stateController.enterState('pause');
+			else stateController.enterState('play');
+		});
 
 		const pauseBg = make([
 			rect(800, 480),

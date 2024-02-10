@@ -57,6 +57,11 @@ function loadSprites(){
     //* Buttons
     loadSprite('buttonLarge', 'UI/buttonLarge.png');
     loadSprite('buttonSmall', 'UI/buttonSmall.png');
+
+    // Game Over
+    loadSprite('gameOver', 'UI/textGameOver.png');
+    // Get Ready
+    loadSprite('getReady', 'UI/textGetReady.png');
 }
 
 function loadResources(){

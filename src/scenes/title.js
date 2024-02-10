@@ -85,9 +85,13 @@ function titleScene(){
         playButton.pos.x = (width()/2) - (playButton.quad.w/2);
         playButton.pos.y = 180;
         playButton.onClick(() => {
-            go('gameplay', {
+            go('colorSelector', {
                 cursor: cursors
             });
+            /*go('gameplay', {
+                cursor: cursors,
+                playerSprite: 'redPlane',
+            });*/
         });
         const playStr = 'PLAY';
         onDraw(() => {
