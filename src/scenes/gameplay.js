@@ -82,7 +82,7 @@ function gameplay(){
 		//* ---------------------------------------------------------------------------------------------
 
 		const player = add([
-			sprite(options.playerSprite),
+			sprite(`${options.playerSprite}Plane`),
 			pos(100, 0),
 			area({
 				shape: new Polygon([
