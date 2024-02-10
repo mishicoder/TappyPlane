@@ -1,49 +1,17 @@
-
-// 0 - arriba | 1 - abajo
-function createRock(options = {
-	rtype,
-	x,
-}){
-	if(options.rtype === 0){
-		return [
-			sprite('rock'),
-			area({
-				shape: new Polygon([
-					vec2(0, 239),
-					vec2(108, 239),
-					vec2(65, 0)
-				])
-			}),
-			fixed(),
-			pos(options.x, height() - 235),
-			'rock',
-		]
-	}else if(options.rtype === 1){
-		return [
-			sprite('rockDown'),
-			area({
-				shape: new Polygon([
-					vec2(0, 0),
-					vec2(108, 0),
-					vec2(66, 237)
-				])
-			}),
-			fixed(),
-			pos(options.x, -2),
-			'rock',
-		];
-	}
-}
+import createRock from "../objects/rock.js";
 
 function gameplay(){
 
 	scene('gameplay', (options = {
-		cursor: -1
+		cursor
 	}) => {
 
+		const rockSpeed = 200;
 		let pause = false;
 
-		let stateController = add([
+		setGravity(200);
+
+		const stateController = add([
 			state('play', ['play', 'pause']),
 		]);
 
@@ -53,11 +21,11 @@ function gameplay(){
 			if(pause) setGravity(0);
 			else setGravity(200);
 
-			stateController.enterState('pause');
+			if(pause) stateController.enterState('pause');
+			else stateController.enterState('play');
 		});
-
 		
-			//todo segunda forma de crear un fondo que se mueve
+		//todo segunda forma de crear un fondo que se mueve
 		/**
 		 ** para ello se necesita dibujar dos veces el fondo
 		 ** tenemos una variable para control de posicion en el eje x para cada fondo
@@ -98,26 +66,7 @@ function gameplay(){
 				pos: vec2(bgx2, 0),
 			});
 		});
-
-		/*let bgwidth = 800;
-		let bgx = 0;
-
-		onDraw(() => {
-
-			drawSprite({
-				sprite: 'background',
-				pos: vec2(bgx, 0),
-				width: bgwidth,
-				height: 480,
-				tiled: true,
-			});
-
-		});*/
-
 		
-
-		setGravity(200);
-		const rockSpeed = 200;
 		//setCursor('pointer');
 
 		const rockTimer = add([
@@ -154,9 +103,6 @@ function gameplay(){
 			body(), 
 			'player'
 		]);
-		//const h = r.height;
-		//r.pos.y = (height() - h);
-		//console.log(h);
 
 		onUpdate('rock', (rock) => {
 			if(!pause){
@@ -201,6 +147,13 @@ function gameplay(){
 			player.jump(120);
 		});
 
+
+		
+		//* ---------------------------------------------------------------------------------------------
+		//todo CURSOR
+		//* ---------------------------------------------------------------------------------------------
+
+
 		const c = add(options.cursor);
 		onUpdate(() => {
 			c.pos = mousePos();
@@ -213,6 +166,33 @@ function gameplay(){
 			if(anim === 'tap'){
 				c.play('idle');
 			}
+		});
+
+		//* ---------------------------------------------------------------------------------------------
+		//todo CONTROL DEL MENU DE PAUSE
+		//* ---------------------------------------------------------------------------------------------
+
+		const pauseBg = make([
+			rect(800, 480),
+			color(0, 0, 0),
+			opacity(0.3),
+		]);
+
+		const continueBtn = make([
+			sprite('buttonLarge'),
+			pos(10, 10),
+			'pausebtn',
+		]);
+
+		stateController.onStateEnter('pause', () => {
+			add(pauseBg);
+			add(continueBtn);
+			readd(c);
+		});
+
+		stateController.onStateEnd('pause', () => {
+			destroy(continueBtn);
+			destroy(pauseBg);
 		});
 
 	});
