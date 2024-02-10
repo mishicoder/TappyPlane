@@ -58,6 +58,10 @@ function loadSprites(){
     loadSprite('buttonLarge', 'UI/buttonLarge.png');
     loadSprite('buttonSmall', 'UI/buttonSmall.png');
 
+    //* taps
+    loadSprite('tapLeft', 'UI/tapLeft.png');
+    loadSprite('tapRight', 'UI/tapRight.png');
+
     // Game Over
     loadSprite('gameOver', 'UI/textGameOver.png');
     // Get Ready
