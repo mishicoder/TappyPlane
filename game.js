@@ -1,11 +1,18 @@
+//! Importamos el objeto k para poder hacer uso de las funciones de Kaboom
+//? Solo es necesario importarlo en este archivo
 import k from './src/k.js';
-import loadResources from './src/resources.js';
-import titleScene from './src/scenes/title.js';
-import gameOver from './src/scenes/gameOver.js';
-import gameplay from './src/scenes/gameplay.js';
 
+//* Importamos nuestras funciones para el juego
+import loadResources from './src/resources.js'; //? funcion de carga de recursos
+import titleScene from './src/scenes/title.js'; //? funcion de carga de la escena 'title'
+import gameOver from './src/scenes/gameOver.js'; //? funcion de carga de la escena 'gameOver'
+import gameplay from './src/scenes/gameplay.js'; //? funcion de carga de la escena 'gamplay'
+
+//! Se ejecutan las funciones para poder agregar todo lo programado, al entorno de Kaboom
 loadResources();
 titleScene();
 gameplay();
 gameOver();
-go('gameplay');
+
+//* Carga la escena 'title'
+go('title');

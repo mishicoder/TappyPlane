@@ -1,4 +1,5 @@
 
+//? Carga todos los sprites a utilizar en el juego
 function loadSprites(){
     loadSprite('background', 'background.png');
     loadSprite('groundDirt', 'groundDirt.png');
@@ -47,7 +48,7 @@ function loadSprites(){
                 from: 0,
                 to: 0
             },
-            click: {
+            tap: {
                 from: 1,
                 to: 1
             }
