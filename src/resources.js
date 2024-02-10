@@ -7,6 +7,7 @@ function loadSprites(){
 
     // picos
     loadSprite('rock', 'rock.png');
+    loadSprite('rockDown', 'rockDown.png');
 
     // carga de planos
     const colors = ['blue', 'green', 'red', 'yellow'];
