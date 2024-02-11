@@ -12,6 +12,7 @@ function gameplay(){
 		//* ---------------------------------------------------------------------------------------------
 		const rockSpeed = 200; //? Velocidad a la que se moveran las rocas
 		let pause = false; //? Determina si el juego esta en pausa
+		let playerAngle = 35;
 
 		setGravity(200); //? Establecemos el valor de la gravedad
 
@@ -108,7 +109,7 @@ function gameplay(){
 
 		const player = add([
 			sprite(`${options.playerSprite}Plane`),
-			pos(100, 0),
+			pos(100, 80),
 			area({
 				shape: new Polygon([
 					vec2(0, 13),
@@ -127,12 +128,29 @@ function gameplay(){
 				]),
 			}),
 			body(), 
+			rotate(),
 			'player'
 		]);
+		player.rotateTo(playerAngle);
+		
+		player.onFall(() => {
+			player.rotateTo(playerAngle);
+		});
+
+		player.onCollide('rock', (rock) => {
+			//go('gameOver');
+		});
 
 		//* ---------------------------------------------------------------------------------------------
 		//todo FUNCIONES DE CONTROL DE JUEGO
 		//* ---------------------------------------------------------------------------------------------
+
+		rockTimer.loop(1.5, () => {
+			add(createRock({
+				rtype: 0,
+				x: width()
+			}))
+		});
 
 		onUpdate('rock', (rock) => {
 			if(!pause){
@@ -141,40 +159,9 @@ function gameplay(){
 			}
 		});
 
-		onDraw(() => {
-			// drawPolygon({
-			// 	pts: [
-			// 		vec2(0, 0),
-			// 		vec2(108, 0),
-			// 		vec2(66, 238)
-			// 	],
-			// 	pos: vec2(r.pos.x, r.pos.y),
-			// 	color: rgb(0, 0, 255)
-			// });
-
-			/*drawPolygon({
-				pts: [
-					vec2(0, 13),
-					vec2(7, 10),
-					vec2(18, 10),
-					vec2(23, 0),
-					vec2(72, 0),
-					vec2(74, 16),
-					vec2(86, 18),
-					vec2(86, 60),
-					vec2(64, 72),
-					vec2(52, 72),
-					vec2(16, 63),
-					vec2(16, 41),
-					vec2(0, 30)
-				],
-				pos: vec2(player.pos.x, player.pos.y),
-				color: rgb(55, 20, 155)
-			});*/
-		});
-
 		onMousePress('left', () => {
 			player.jump(120);
+			player.rotateTo(0);
 		});
 
 

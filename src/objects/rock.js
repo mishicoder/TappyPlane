@@ -16,7 +16,7 @@ function createRock(options = {
                 ]),
             }),
             fixed(),
-            pos(options.x, heihgt() - 235),
+            pos(options.x, height() - 235),
             'rock'
         ];
     }else if(options.rtype === 1){
