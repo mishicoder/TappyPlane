@@ -61,30 +61,7 @@ function gameplay(){
 			});
 		});
 
-		//* ---------------------------------------------------------------------------------------------
-		//todo DIBUJADO DE LA PARTE FRONTAL
-		//* ---------------------------------------------------------------------------------------------
-		let fgx1 = 0;
-		let fgx2 = 808;
-
-		onUpdate(() => {
-			if(!pause) fgx1 -= 2;
-			if(!pause) fgx2 -= 2;
-
-			if(fgx1 < -808) fgx1 = 806;
-			if(fgx2 < -808) fgx2 = 806;
-		});
-
-		onDraw(() => {
-			drawSprite({
-				sprite: 'groundDirt',
-				pos: vec2(fgx1, height() - 71),
-			});
-			drawSprite({
-				sprite: 'groundDirt',
-				pos: vec2(fgx2, height() - 71),
-			});
-		});
+		
 
 		// rockTimer.loop('1.8', () => {
 		// 	add(createRock({
@@ -106,6 +83,10 @@ function gameplay(){
 		//* ---------------------------------------------------------------------------------------------
 		//todo OBJETOS INICIALES DEL JUEGO
 		//* ---------------------------------------------------------------------------------------------
+
+		const rocks = add([
+			pos(0, 0)
+		]);
 
 		const player = add([
 			sprite(`${options.playerSprite}Plane`),
@@ -139,17 +120,29 @@ function gameplay(){
 
 		player.onCollide('rock', (rock) => {
 			//go('gameOver');
+			console.log('chocó con la roca');
 		});
 
 		//* ---------------------------------------------------------------------------------------------
 		//todo FUNCIONES DE CONTROL DE JUEGO
 		//* ---------------------------------------------------------------------------------------------
 
-		rockTimer.loop(1.5, () => {
-			add(createRock({
-				rtype: 0,
-				x: width()
-			}))
+		rockTimer.loop(2.0, () => {
+			if(!pause){
+				rocks.add(createRock({
+					rtype: 0,
+					x: width()
+				}))
+			}
+		});
+
+		rockDownTimer.loop(2.7, () => {
+			if(!pause){
+				rocks.add(createRock({
+					rtype: 1,
+					x: width()
+				}))
+			}
 		});
 
 		onUpdate('rock', (rock) => {
@@ -164,6 +157,31 @@ function gameplay(){
 			player.rotateTo(0);
 		});
 
+
+		//* ---------------------------------------------------------------------------------------------
+		//todo DIBUJADO DE LA PARTE FRONTAL
+		//* ---------------------------------------------------------------------------------------------
+		let fgx1 = 0;
+		let fgx2 = 808;
+
+		onUpdate(() => {
+			if(!pause) fgx1 -= 2;
+			if(!pause) fgx2 -= 2;
+
+			if(fgx1 < -808) fgx1 = 806;
+			if(fgx2 < -808) fgx2 = 806;
+		});
+
+		onDraw(() => {
+			drawSprite({
+				sprite: 'groundDirt',
+				pos: vec2(fgx1, height() - 71),
+			});
+			drawSprite({
+				sprite: 'groundDirt',
+				pos: vec2(fgx2, height() - 71),
+			});
+		});
 
 		
 		//* ---------------------------------------------------------------------------------------------
