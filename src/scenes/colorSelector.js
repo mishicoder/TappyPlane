@@ -14,7 +14,9 @@ function colorSelector(){
         const planeSpeed = 10;
         const buttonSpace = 95;
         let currentColor = 0;
-
+        let click = true;
+        const clickTime = 0.8;
+ 
         //* ---------------------------------------------------------------------------------------------
 		//todo DIBUJADO DEL FONDO
 		//* ---------------------------------------------------------------------------------------------
@@ -70,6 +72,12 @@ function colorSelector(){
         //* ---------------------------------------------------------------------------------------------
 		//todo AGREGAR OBJETOS
 		//* ---------------------------------------------------------------------------------------------
+
+        //! temporizador
+        const temp = add([
+            timer(),
+        ]);
+
         // 88 x 73
         const redPlane = add([
             sprite('redPlane', {
@@ -150,27 +158,34 @@ function colorSelector(){
             area(),
         ]);
         leftBtn.onClick(() => {
-            for(let i = 0; i < allPlanes.length; i++){
-                allPlanes[i].show = false;
-            }
-            currentColor--;
-            if(currentColor < 0) currentColor = (colors.length - 1);
+            if(click){
+                for(let i = 0; i < allPlanes.length; i++){
+                    allPlanes[i].show = false;
+                }
+                currentColor--;
+                if(currentColor < 0) currentColor = (colors.length - 1);
+    
+                switch (currentColor) {
+                    case 0: //? Red
+                        redPlane.show = true;
+                        break;
+                    case 1: //? Green
+                        greenPlane.show = true;
+                        break;
+                    case 2: //? Yellow
+                        yellowPlane.show = true;
+                        break;
+                    case 3: //? Blue
+                        bluePlane.show = true;
+                        break;
+                    default:
+                        break;
+                }
 
-            switch (currentColor) {
-                case 0: //? Red
-                    redPlane.show = true;
-                    break;
-                case 1: //? Green
-                    greenPlane.show = true;
-                    break;
-                case 2: //? Yellow
-                    yellowPlane.show = true;
-                    break;
-                case 3: //? Blue
-                    bluePlane.show = true;
-                    break;
-                default:
-                    break;
+                click = false;
+                temp.wait(clickTime, () => {
+                    click = true;
+                });
             }
         });
 
@@ -180,27 +195,34 @@ function colorSelector(){
             area(),
         ]);
         rightBtn.onClick(() => {
-            for(let i = 0; i < allPlanes.length; i++){
-                allPlanes[i].show = false;
-            }
-            currentColor++;
-            if(currentColor >= colors.length) currentColor = 0;
+            if(click){
+                for(let i = 0; i < allPlanes.length; i++){
+                    allPlanes[i].show = false;
+                }
+                currentColor++;
+                if(currentColor >= colors.length) currentColor = 0;
+    
+                switch (currentColor) {
+                    case 0: //? Red
+                        redPlane.show = true;
+                        break;
+                    case 1: //? Green
+                        greenPlane.show = true;
+                        break;
+                    case 2: //? Yellow
+                        yellowPlane.show = true;
+                        break;
+                    case 3: //? Blue
+                        bluePlane.show = true;
+                        break;
+                    default:
+                        break;
+                }
 
-            switch (currentColor) {
-                case 0: //? Red
-                    redPlane.show = true;
-                    break;
-                case 1: //? Green
-                    greenPlane.show = true;
-                    break;
-                case 2: //? Yellow
-                    yellowPlane.show = true;
-                    break;
-                case 3: //? Blue
-                    bluePlane.show = true;
-                    break;
-                default:
-                    break;
+                click = false;
+                temp.wait(clickTime, () => {
+                    click = true;
+                });
             }
         });
 

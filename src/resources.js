@@ -66,6 +66,9 @@ function loadSprites(){
     loadSprite('gameOver', 'UI/textGameOver.png');
     // Get Ready
     loadSprite('getReady', 'UI/textGetReady.png');
+
+    // ground
+    loadSprite('groundDirt', 'groundDirt.png');
 }
 
 function loadResources(){

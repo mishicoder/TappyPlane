@@ -30,7 +30,7 @@ function gameplay(){
 		onUpdate(() => {
 			//* Actualizamos la posicion del fondo siemnpre y cuando el juego no este pausado
 			if(!pause) bgx1 -= 2;
-			if(!pause)bgx2 -= 2;
+			if(!pause) bgx2 -= 2;
 
 			//* Reposicionamos los sprites de fondo cuando salen de la pantalla
 			if(bgx1 <= -800){
@@ -57,6 +57,31 @@ function gameplay(){
 				width: 800,
 				height: 480,
 				pos: vec2(bgx2, 0),
+			});
+		});
+
+		//* ---------------------------------------------------------------------------------------------
+		//todo DIBUJADO DE LA PARTE FRONTAL
+		//* ---------------------------------------------------------------------------------------------
+		let fgx1 = 0;
+		let fgx2 = 808;
+
+		onUpdate(() => {
+			if(!pause) fgx1 -= 2;
+			if(!pause) fgx2 -= 2;
+
+			if(fgx1 < -808) fgx1 = 806;
+			if(fgx2 < -808) fgx2 = 806;
+		});
+
+		onDraw(() => {
+			drawSprite({
+				sprite: 'groundDirt',
+				pos: vec2(fgx1, height() - 71),
+			});
+			drawSprite({
+				sprite: 'groundDirt',
+				pos: vec2(fgx2, height() - 71),
 			});
 		});
 
@@ -108,8 +133,6 @@ function gameplay(){
 		//* ---------------------------------------------------------------------------------------------
 		//todo FUNCIONES DE CONTROL DE JUEGO
 		//* ---------------------------------------------------------------------------------------------
-
-		
 
 		onUpdate('rock', (rock) => {
 			if(!pause){
@@ -190,27 +213,150 @@ function gameplay(){
 			else stateController.enterState('play');
 		});
 
+		
+		//! Fondo
 		const pauseBg = make([
 			rect(800, 480),
 			color(0, 0, 0),
 			opacity(0.3),
 		]);
 
+		//! Botones
+		//* Boton de continuar
+		// 196 x 70
 		const continueBtn = make([
 			sprite('buttonLarge'),
-			pos(10, 10),
-			'pausebtn',
+			pos(
+				(width()/2) - (196/2),
+				120
+			),
+			area(),
+		]);
+		
+		//* Boton para volver al menu
+		const titleBtn = make([
+			sprite('buttonLarge'),
+			pos(
+				(width()/2) - (196/2),
+				220
+			),
+			area(),
+		]);
+		//* Boton de salir
+		const exitBtn = make([
+			sprite('buttonLarge'),
+			pos(
+				(width()/2) - (196/2),
+				320
+			),
+			area(),
 		]);
 
+		//? Texto de los botones
+		const continueStr = 'CONTINUE';
+		const titleStr = 'MENU';
+		const exitStr = 'EXIT';
+
 		stateController.onStateEnter('pause', () => {
+			//! Eventos para botones
+			//* Boton de continuar
+			continueBtn.onClick(() => {
+				pause = !pause;
+	
+				if(pause) setGravity(0);
+				else setGravity(200);
+	
+				if(pause) stateController.enterState('pause');
+				else stateController.enterState('play');
+			});
+			//* Boton para volver al menu
+			titleBtn.onClick(() => {
+				go('title');
+			});
+			//* Boton para salir
+			exitBtn.onClick(() => {
+				quit();
+				window.close();
+			});
+
 			add(pauseBg);
 			add(continueBtn);
+			add(titleBtn);
+			add(exitBtn);
+
+			//! Dibujado de texto de los botones
+			onDraw(() => {
+				
+				if(pause){
+					//* Boton de continuar
+					let cx = ((width()/2) - (( (7*22.8) + 11.4 + 28 ) / 2));
+					for(let i = 0; i < continueStr.length; i++){
+						if(continueStr[i] === 'I'){
+							drawSprite({
+								sprite: `l${continueStr[i]}`,
+								width: 11.4,
+								height: 24,
+								pos: vec2(cx, 135),
+							});
+							cx += 15.4;
+						}
+						else{
+							drawSprite({
+								sprite: `l${continueStr[i]}`,
+								width: 22.8,
+								height: 24,
+								pos: vec2(cx, 135),
+							});
+							cx += 26.8;
+						}
+					}
+
+					//* Boton de menu
+					let mx = ((width()/2) - (( (4*22.8) + (12) ) / 2));
+					for(let i = 0; i < titleStr.length; i++){
+						drawSprite({
+							sprite: `l${titleStr[i]}`,
+							width: 22.8,
+							height: 24,
+							pos: vec2(mx, 238),
+						});
+						mx += 26.8;
+					}
+
+					//* Boton de salir
+					let ex = ((width()/2) - (( (4*22.8) + 12 ) / 2));
+					for(let i = 0; i < exitStr.length; i++){
+						if(exitStr[i] === 'I'){
+							drawSprite({
+								sprite: `l${exitStr[i]}`,
+								width: 11.4,
+								height: 24,
+								pos: vec2(ex, 338),
+							});
+							ex += 15.4;
+						}
+						else{
+							drawSprite({
+								sprite: `l${exitStr[i]}`,
+								width: 22.8,
+								height: 24,
+								pos: vec2(ex, 338),
+							});
+							ex += 26.8;
+						}
+					}
+				}
+			});
+			
+			
 			readd(c);
 		});
 
 		stateController.onStateEnd('pause', () => {
 			destroy(continueBtn);
 			destroy(pauseBg);
+			destroy(titleBtn);
+			destroy(exitBtn);
 		});
 
 	});

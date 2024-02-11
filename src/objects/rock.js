@@ -4,6 +4,7 @@ function createRock(options = {
     x
 }){
 
+    
     if(options.rtype === 0){
         return [
             sprite('rock'),
