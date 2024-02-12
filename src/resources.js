@@ -124,6 +124,10 @@ function loadSprites(){
             },
         }
     });
+    // medals
+    loadSprite('medalBronze', 'UI/medalBronze.png');
+    loadSprite('medalSilver', 'UI/medalSilver.png');
+    loadSprite('medalGold', 'UI/medalGold.png');
 
     // ground
     loadSprite('groundDirt', 'groundDirt.png');

@@ -51,6 +51,16 @@ function gameOver(){
 			pos(85, height() + 20),
 		]);
 
+		let medalSprite;
+		if(options.score < 500) medalSprite = 'Bronze';
+		if(options.score > 500 && options.score < 1000) medalSprite = 'Silver';
+		if(options.score > 1000) medalSprite = 'Gold';
+
+		const medal = add([
+			sprite(`medal${medalSprite}`),
+			pos(-114, 320),
+		]);
+
 		//* ---------------------------------------------------------------------------------------------
 		//todo FUNCIONES
 		//* ---------------------------------------------------------------------------------------------
@@ -60,6 +70,9 @@ function gameOver(){
 
 			if(points.pos.y > 240) points.move(0, -500);
 			if(points.pos.y < 240) points.pos.y = 240;
+
+			if(medal.pos.x < 85) medal.move(280, 0);
+			if(medal.pos.x > 85) medal.pos.x = 85;
 		});
 
 
