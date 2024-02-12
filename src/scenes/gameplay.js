@@ -1,4 +1,4 @@
-import createRock from "../objects/rock.js";
+import createRocks from "../objects/rock.js";
 
 function gameplay(){
 
@@ -10,7 +10,7 @@ function gameplay(){
 		//* ---------------------------------------------------------------------------------------------
 		//todo VARIABLES Y CONSTANTES DE CONTROL | FUNCIONES INICIALES
 		//* ---------------------------------------------------------------------------------------------
-		const rockSpeed = 200; //? Velocidad a la que se moveran las rocas
+		const rockSpeed = 160; //? Velocidad a la que se moveran las rocas
 		let pause = false; //? Determina si el juego esta en pausa
 		let playerAngle = 35;
 
@@ -61,25 +61,6 @@ function gameplay(){
 			});
 		});
 
-		
-
-		// rockTimer.loop('1.8', () => {
-		// 	add(createRock({
-		// 		rtype: 0,
-		// 		x: (width() + 108)
-		// 	}))
-		// });
-		//* ---------------------------------------------------------------------------------------------
-		//todo TEMPORIZADORES
-		//* ---------------------------------------------------------------------------------------------
-		const rockTimer = add([
-			timer(),
-		]);
-
-		const rockDownTimer = add([
-			timer(),
-		]);
-
 		//* ---------------------------------------------------------------------------------------------
 		//todo OBJETOS INICIALES DEL JUEGO
 		//* ---------------------------------------------------------------------------------------------
@@ -89,7 +70,9 @@ function gameplay(){
 		]);
 
 		const player = add([
-			sprite(`${options.playerSprite}Plane`),
+			sprite(`${options.playerSprite}Plane`, {
+				anim: 'fly'
+			}),
 			pos(100, 80),
 			area({
 				shape: new Polygon([
@@ -112,11 +95,11 @@ function gameplay(){
 			rotate(),
 			'player'
 		]);
-		player.rotateTo(playerAngle);
+		//player.rotateTo(playerAngle);
 		
-		player.onFall(() => {
-			player.rotateTo(playerAngle);
-		});
+		// player.onFall(() => {
+		// 	player.rotateTo(playerAngle);
+		// });
 
 		player.onCollide('rock', (rock) => {
 			//go('gameOver');
@@ -127,34 +110,35 @@ function gameplay(){
 		//todo FUNCIONES DE CONTROL DE JUEGO
 		//* ---------------------------------------------------------------------------------------------
 
-		rockTimer.loop(2.0, () => {
-			if(!pause){
-				rocks.add(createRock({
-					rtype: 0,
-					x: width()
-				}))
-			}
-		});
-
-		rockDownTimer.loop(2.7, () => {
-			if(!pause){
-				rocks.add(createRock({
-					rtype: 1,
-					x: width()
-				}))
-			}
+		loop(1.5, () => {
+			if(!pause)createRocks(rocks);
 		});
 
 		onUpdate('rock', (rock) => {
 			if(!pause){
 				rock.move(-rockSpeed, 0);
-				if(rock.pos.x < -180) destroy(rock);
 			}
 		});
 
+		//* ---------------------------------------------------------------------------------------------
+		//todo CONTROL DE ENTRADA DE USUARIO
+		//* ---------------------------------------------------------------------------------------------
+
 		onMousePress('left', () => {
-			player.jump(120);
-			player.rotateTo(0);
+			if(!pause){
+				player.jump(120);
+				player.rotateTo(0);
+			}
+		});
+
+		onKeyPress('escape', () => {
+			pause = !pause;
+
+			if(pause) setGravity(0);
+			else setGravity(200);
+
+			if(pause) { stateController.enterState('pause'); player.play('idle'); }
+			else { stateController.enterState('play'); player.play('fly') }
 		});
 
 
@@ -207,17 +191,6 @@ function gameplay(){
 		const stateController = add([
 			state('play', ['play', 'pause']),
 		]);
-
-		onKeyPress('escape', () => {
-			pause = !pause;
-
-			if(pause) setGravity(0);
-			else setGravity(200);
-
-			if(pause) stateController.enterState('pause');
-			else stateController.enterState('play');
-		});
-
 		
 		//! Fondo
 		const pauseBg = make([
@@ -271,8 +244,8 @@ function gameplay(){
 				if(pause) setGravity(0);
 				else setGravity(200);
 	
-				if(pause) stateController.enterState('pause');
-				else stateController.enterState('play');
+				if(pause) { stateController.enterState('pause'); player.play('idle'); }
+			else { stateController.enterState('play'); player.play('fly') }
 			});
 			//* Boton para volver al menu
 			titleBtn.onClick(() => {
