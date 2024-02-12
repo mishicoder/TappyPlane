@@ -236,9 +236,27 @@ function colorSelector(){
             area(),
         ]);
         selectButton.onClick(() => {
+            const rockTypes = [
+                'n', // normal
+                'g', // grass
+                'i', // ice
+                's'  // snow
+            ];
+
+            const groundTypes = [
+                'd', // normal
+                'g', // grass
+                'i', // ice
+                's'  // snow
+            ];
+
+            const rock = randi(0, 4);
+
             go('gameplay', {
                 cursor: c,
                 playerSprite: colors[currentColor],
+                rockSprite: rockTypes[rock],
+                groundSprite: groundTypes[rock],
             });
         });
 

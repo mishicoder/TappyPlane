@@ -2,13 +2,22 @@
 //? Carga todos los sprites a utilizar en el juego
 function loadSprites(){
     loadSprite('background', 'background.png');
-    loadSprite('groundDirt', 'groundDirt.png');
-    loadSprite('groundGrass', 'groundGrass.png');
-    loadSprite('groundIce', 'groundIce.png');
+
+    // ground
+    loadSprite('gd', 'groundDirt.png');
+    loadSprite('gg', 'groundGrass.png');
+    loadSprite('gi', 'groundIce.png');
+    loadSprite('gs', 'groundSnow.png');
 
     // picos
-    loadSprite('rock', 'rock.png');
-    loadSprite('rockDown', 'rockDown.png');
+    loadSprite('rn', 'rock.png'); // normal
+    loadSprite('rnDown', 'rockDown.png'); // normal hacia abajo
+    loadSprite('rg', 'rockGrass.png'); // grass
+    loadSprite('rgDown', 'rockGrassDown.png'); 
+    loadSprite('ri', 'rockIce.png'); // ice
+    loadSprite('riDown', 'rockIceDown.png');
+    loadSprite('rs', 'rockSnow.png'); // snow
+    loadSprite('rsDown', 'rockSnowDown.png');
 
     // carga de planos
     const colors = ['blue', 'green', 'red', 'yellow'];

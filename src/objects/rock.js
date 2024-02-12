@@ -1,13 +1,13 @@
 
-const ROCK_GAP = 160;
+const ROCK_GAP = 135;
 
-function createRocks(parent){
+function createRocks(parent, rockSprite){
 
     const offset = rand(-50, 50);
 
-    //* Top
+    //* Bottom 
     parent.add([
-        sprite('rock'),
+        sprite(`r${rockSprite}`),
         pos(width(), height()/2 + offset + ROCK_GAP / 2),
         offscreen({ destroy: true }),
         area({
@@ -19,12 +19,12 @@ function createRocks(parent){
         }),
         "rock",
     ]);
-    //* Bottom
+    //* Top
     parent.add([
-        sprite('rockDown'),
-        pos(width(), height() / 2 + offset - ROCK_GAP /2),
+        sprite(`r${rockSprite}Down`),
+        pos(width(), offset - ROCK_GAP / 2 ),
         offscreen({ destroy: true }),
-        anchor('botleft'),
+        
         area({
             shape: new Polygon([
                 vec2(0, 0),

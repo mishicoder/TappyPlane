@@ -8,7 +8,9 @@ const k = kaboom({
     height: 480, //? Alto del canvas
     canvas: document.querySelector('#game'), //* Referencia al canvas del documento HTML
     background: [218, 239, 247], //? Color de fondo de la ventana
+    debug: true
 });
+debug.inspect = true;
 
 //* Establecemeos la ruta principal de los recursos
 loadRoot('resources/');

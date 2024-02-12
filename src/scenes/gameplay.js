@@ -5,6 +5,8 @@ function gameplay(){
 	scene('gameplay', (options = {
 		cursor, //? pedimos el objeto de cursor por parametro
 		playerSprite,
+		rockSprite,
+		groundSprite,
 	}) => {
 
 		//* ---------------------------------------------------------------------------------------------
@@ -95,11 +97,11 @@ function gameplay(){
 			rotate(),
 			'player'
 		]);
-		//player.rotateTo(playerAngle);
+		player.rotateTo(playerAngle);
 		
-		// player.onFall(() => {
-		// 	player.rotateTo(playerAngle);
-		// });
+		player.onFall(() => {
+			player.rotateTo(playerAngle);
+		});
 
 		player.onCollide('rock', (rock) => {
 			//go('gameOver');
@@ -107,11 +109,11 @@ function gameplay(){
 		});
 
 		//* ---------------------------------------------------------------------------------------------
-		//todo FUNCIONES DE CONTROL DE JUEGO
+		//todo FUNCIONES DE FLUJO DE JUEGO
 		//* ---------------------------------------------------------------------------------------------
 
 		loop(1.5, () => {
-			if(!pause)createRocks(rocks);
+			if(!pause)createRocks(rocks, options.rockSprite);
 		});
 
 		onUpdate('rock', (rock) => {
@@ -158,11 +160,11 @@ function gameplay(){
 
 		onDraw(() => {
 			drawSprite({
-				sprite: 'groundDirt',
+				sprite: `g${options.groundSprite}`,
 				pos: vec2(fgx1, height() - 71),
 			});
 			drawSprite({
-				sprite: 'groundDirt',
+				sprite: `g${options.groundSprite}`,
 				pos: vec2(fgx2, height() - 71),
 			});
 		});
