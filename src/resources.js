@@ -46,6 +46,20 @@ function loadSprites(){
         });
     }
 
+    // puff
+    loadSprite('puff', 'puff.png', {
+        x: 0,
+        y: 0,
+        sliceX: 2,
+        anims: {
+            fly: {
+                from: 0,
+                to: 1,
+                loop: true
+            }
+        }
+    });
+
     // cargar letras
     const ltrs = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
     for(let i = 0; i < ltrs.length; i++){

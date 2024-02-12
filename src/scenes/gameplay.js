@@ -77,7 +77,6 @@ function gameplay(){
 		]);
 
 		const player = add([
-			sprite(`${options.playerSprite}Plane`),
 			pos(100, 80),
 			area({
 				shape: new Polygon([
@@ -100,6 +99,16 @@ function gameplay(){
 			rotate(),
 			'player'
 		]);
+
+		const puff = player.add([
+			sprite('puff', { anim: 'fly' }),
+			pos(-39, 8),
+		]);
+
+		const plane = player.add([
+			sprite(`${options.playerSprite}Plane`),
+		]);
+
 		player.rotateTo(playerAngle);
 		
 		player.onFall(() => {
@@ -107,8 +116,11 @@ function gameplay(){
 		});
 
 		player.onCollide('rock', (rock) => {
-			//go('gameOver');
-			console.log('chocó con la roca');
+			go('gameOver', {
+				cursor: c,
+				score: points,
+				playerSprite: options.playerSprite,
+			});
 		});
 
 		//* ---------------------------------------------------------------------------------------------
@@ -146,7 +158,7 @@ function gameplay(){
 				ready = true;
 				pause = false;
 				setGravity(200);
-				player.play('fly');
+				plane.play('fly');
 				destroy(getReadyHidden);
 			}
 		})
@@ -188,6 +200,16 @@ function gameplay(){
 			if(!pause)points += 2;
 		});
 
+		onUpdate(() => {
+			if(player.pos.y > height()){
+				go('gameOver', {
+					cursor: c,
+					score: points,
+					playerSprite: options.playerSprite,
+				});
+			}
+		});
+
 		onUpdate('rock', (rock) => {
 			if(!pause){
 				rock.move(-rockSpeed, 0);
@@ -215,8 +237,8 @@ function gameplay(){
 			if(pause) setGravity(0);
 			else setGravity(200);
 
-			if(pause) { stateController.enterState('pause'); player.play('idle'); }
-			else { stateController.enterState('play'); player.play('fly') }}
+			if(pause) { stateController.enterState('pause'); plane.play('idle'); }
+			else { stateController.enterState('play'); plane.play('fly') }}
 		});
 
 
@@ -341,8 +363,8 @@ function gameplay(){
 				if(pause) setGravity(0);
 				else setGravity(200);
 	
-				if(pause) { stateController.enterState('pause'); player.play('idle'); }
-			else { stateController.enterState('play'); player.play('fly') }
+				if(pause) { stateController.enterState('pause'); plane.play('idle'); }
+			else { stateController.enterState('play'); plane.play('fly') }
 			});
 			//* Boton para volver al menu
 			titleBtn.onClick(() => {
