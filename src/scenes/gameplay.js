@@ -21,6 +21,8 @@ function gameplay(){
 
 		let points = 0; //? Puntos obetenidos (serán pasados por parámetro)
 
+		const c = add(options.cursor);
+
 		//* ---------------------------------------------------------------------------------------------
 		//todo DIBUJADO DEL FONDO CON EFECTO PARALLAX
 		//* ---------------------------------------------------------------------------------------------
@@ -117,21 +119,37 @@ function gameplay(){
 			timer(),
 		]);
 
-		const getReady = make([
-			sprite('getReady'),
-			pos(400, 100),
-			scale(0.0),
+		const getReadyShow = make([
+			sprite('getReadyShow'),
+			pos(200, 100),
+			scale(1.0),
 			rotate(),
-			anchor('center'),
+		]);
+		
+		const getReadyHidden = make([
+			sprite('getReadyHidden'),
+			pos(200, 100),
+			scale(1.0),
+			rotate(),
 		]);
 
-		let grS = 0.0;
-		const scaleL = loop(0.1, () => {
-			grS += 0.016;
-			getReady.scaleTo(grS);
-			
-			if(grS >= 1.0) scaleL.cancel();
+		getReadyShow.onAnimEnd((anim) => {
+			wait(1, () => {
+				add(getReadyHidden);
+				destroy(getReadyShow);
+				getReadyHidden.play('show');
+			});
 		});
+
+		getReadyHidden.onAnimEnd((anim) => {
+			if(anim === 'show'){
+				ready = true;
+				pause = false;
+				setGravity(200);
+				player.play('fly');
+				destroy(getReadyHidden);
+			}
+		})
 
 		let timeToStart = 3;
 		let de;
@@ -150,14 +168,12 @@ function gameplay(){
 		});
 
 		t.wait(3, () => {
-			pause = false;
-			setGravity(200);
-			player.play('fly');
+			
 			destroy(t);
 			initialTime.cancel();
 			de.cancel();
-			ready = true;
-			add(getReady);
+			add(getReadyShow);
+			getReadyShow.play('show');
 		});
 
 		//* ---------------------------------------------------------------------------------------------
@@ -165,11 +181,11 @@ function gameplay(){
 		//* ---------------------------------------------------------------------------------------------
 
 		loop(1.5, () => {
-			//if(!pause)createRocks(rocks, options.rockSprite);
+			if(!pause)createRocks(rocks, options.rockSprite);
 		});
 
 		loop(0.7, () => {
-			if(!pause)points++;
+			if(!pause)points += 2;
 		});
 
 		onUpdate('rock', (rock) => {
@@ -251,7 +267,7 @@ function gameplay(){
 		//* ---------------------------------------------------------------------------------------------
 		//todo CURSOR
 		//* ---------------------------------------------------------------------------------------------
-		const c = add(options.cursor);
+		//readd(c);
 		if(isTouchscreen()){ c.hidden = true; }
 		onUpdate(() => {
 			c.pos = mousePos();
@@ -406,9 +422,6 @@ function gameplay(){
 					}
 				}
 			});
-			
-			
-			readd(c);
 		});
 
 		stateController.onStateEnd('pause', () => {

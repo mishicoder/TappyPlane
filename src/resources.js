@@ -79,8 +79,33 @@ function loadSprites(){
 
     // Game Over
     loadSprite('gameOver', 'UI/textGameOver.png');
-    // Get Ready
-    loadSprite('getReady', 'UI/textGetReady.png');
+    // Get Ready Animation
+    loadSprite('getReadyShow', 'UI/getReadyShow.png', {
+        x: 0,
+        y: 0,
+        sliceX: 5,
+        sliceY: 3,
+        anims: {
+            show: {
+                from: 0, 
+                to: 10,
+                speed: 32
+            },
+        }
+    });
+    loadSprite('getReadyHidden', 'UI/getReadyHidden.png', {
+        x: 0,
+        y: 0,
+        sliceX: 5,
+        sliceY: 2,
+        anims: {
+            show: {
+                from: 0, 
+                to: 9,
+                speed: 32
+            },
+        }
+    });
 
     // ground
     loadSprite('groundDirt', 'groundDirt.png');

@@ -152,6 +152,7 @@ function titleScene(){
             pos(),
             fixed(),
             anchor('center'),
+            z(100),
         ]);
         if(isTouchscreen()){ cursors.hidden = true; }
 
