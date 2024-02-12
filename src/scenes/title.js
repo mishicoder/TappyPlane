@@ -158,6 +158,9 @@ function titleScene(){
 
         onMousePress('left', () => {
             cursors.play('tap');
+            play('click', {
+                volume: 0.2
+            });
         });
 
         cursors.onAnimEnd((anim) => {

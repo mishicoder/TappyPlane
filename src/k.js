@@ -11,6 +11,7 @@ const k = kaboom({
     debug: true
 });
 debug.inspect = false;
+audioCtx = new AudioContext();
 
 //* Establecemeos la ruta principal de los recursos
 loadRoot('resources/');

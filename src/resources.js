@@ -125,8 +125,14 @@ function loadSprites(){
     loadSprite('groundDirt', 'groundDirt.png');
 }
 
+//? Carga todos los sonidos para el juego
+function loadSounds(){
+    loadSound('click', 'sounds/click.ogg');
+}
+
 function loadResources(){
     loadSprites();
+    loadSounds();
 }
 
 export default loadResources;
