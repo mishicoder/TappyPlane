@@ -36,6 +36,14 @@ function gameOver(){
 
 		});
 
+		add([
+			text('Holiwi', {
+				font: 'kfuture_thin'
+			}),
+			pos(180, 200),
+			color(0, 0, 0)
+		]);
+
 	});
 
 }

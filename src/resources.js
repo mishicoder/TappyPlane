@@ -130,9 +130,16 @@ function loadSounds(){
     loadSound('click', 'sounds/click.ogg');
 }
 
+//? 
+function loadFonts(){
+    loadFont('kfuture_thin', 'resources/fonts/kenvector_future_thin.ttf');
+    loadFont('kfuture', 'resources/fonts/kenvector_future.ttf');
+}
+
 function loadResources(){
     loadSprites();
     loadSounds();
+    loadFonts();
 }
 
 export default loadResources;
