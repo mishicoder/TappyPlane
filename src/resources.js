@@ -52,6 +52,10 @@ function loadSprites(){
         y: 0,
         sliceX: 2,
         anims: {
+            idle: {
+                from: 0,
+                to: 0
+            },
             fly: {
                 from: 0,
                 to: 1,

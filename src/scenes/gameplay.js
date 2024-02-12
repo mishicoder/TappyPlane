@@ -104,7 +104,7 @@ function gameplay(){
 		]);
 
 		const puff = player.add([
-			sprite('puff', { anim: 'fly' }),
+			sprite('puff'),
 			pos(-39, 8),
 		]);
 
@@ -162,6 +162,7 @@ function gameplay(){
 				ready = true;
 				pause = false;
 				setGravity(200);
+				puff.play('fly');
 				plane.play('fly');
 				destroy(getReadyHidden);
 			}
@@ -242,8 +243,8 @@ function gameplay(){
 			if(pause) setGravity(0);
 			else setGravity(200);
 
-			if(pause) { stateController.enterState('pause'); plane.play('idle'); }
-			else { stateController.enterState('play'); plane.play('fly') }}
+			if(pause) { stateController.enterState('pause'); plane.play('idle'); puff.play('idle');}
+			else { stateController.enterState('play'); plane.play('fly'); puff.play('fly'); }}
 		});
 
 
@@ -342,8 +343,8 @@ function gameplay(){
 					if(pause) setGravity(0);
 					else setGravity(200);
 		
-					if(pause) { stateController.enterState('pause'); plane.play('idle'); }
-					else { stateController.enterState('play'); plane.play('fly') }
+					if(pause) { stateController.enterState('pause'); plane.play('idle'); puff.play('idle'); }
+					else { stateController.enterState('play'); plane.play('fly'); puff.play('fly'); }
 				}
 			});
 			continueBtn.pos.x = (width()/2) - (196/2);
