@@ -12,8 +12,6 @@ function gameOver(){
 		const bronzePoints = 0;
 		const silverPoints = 500;
 		const goldPoints = 1000;
-
-		const msg = 'GAME OVER';
 		let titleY = -90;
 
 		setGravity(0);
@@ -38,9 +36,20 @@ function gameOver(){
 		//* ---------------------------------------------------------------------------------------------
 		const p = add(options.p);
 		p.pos.x = 100;
-		p.pos.y = 100;
+		p.pos.y = 140;
 		p.rotateTo(0);
-
+		
+		let ptxt = options.score.toString();
+		if(options.score < 100) ptxt = '00' + options.score.toString();
+		else if(options.score >= 100 && options.score < 1000) ptxt = '0' + options.score.toString();
+		const points = add([
+			text(ptxt, {
+				font: 'kfuture',
+				size: 48,
+			}),
+			color(0, 0, 0),
+			pos(85, 240),
+		]);
 		//* ---------------------------------------------------------------------------------------------
 		//todo BOTONES
 		//* ---------------------------------------------------------------------------------------------

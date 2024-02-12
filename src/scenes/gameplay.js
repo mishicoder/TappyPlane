@@ -1,4 +1,7 @@
+import button from "../objects/button.js";
 import createRocks from "../objects/rock.js";
+
+// nota aleatorioa xdddd => https://www.warp.dev/
 
 function gameplay(){
 
@@ -323,135 +326,53 @@ function gameplay(){
 		//! Botones
 		//* Boton de continuar
 		// 196 x 70
-		const continueBtn = make([
-			sprite('buttonLarge'),
-			pos(
-				(width()/2) - (196/2),
-				120
-			),
-			area(),
-		]);
-		
-		//* Boton para volver al menu
-		const titleBtn = make([
-			sprite('buttonLarge'),
-			pos(
-				(width()/2) - (196/2),
-				220
-			),
-			area(),
-		]);
-		//* Boton de salir
-		const exitBtn = make([
-			sprite('buttonLarge'),
-			pos(
-				(width()/2) - (196/2),
-				320
-			),
-			area(),
-		]);
-
-		//? Texto de los botones
-		const continueStr = 'CONTINUE';
-		const titleStr = 'MENU';
-		const exitStr = 'EXIT';
+		let continueBtn = 0;
+		let menuBtn = 0;
+		let exitBtn = 0;
 
 		stateController.onStateEnter('pause', () => {
 			//! Eventos para botones
-			//* Boton de continuar
-			continueBtn.onClick(() => {
-				pause = !pause;
+
+			continueBtn = button({
+				btnText: 'Continue',
+				btnTextSize: 28,
+				onClickEvent: () => {
+					pause = !pause;
 	
-				if(pause) setGravity(0);
-				else setGravity(200);
-	
-				if(pause) { stateController.enterState('pause'); plane.play('idle'); }
-			else { stateController.enterState('play'); plane.play('fly') }
-			});
-			//* Boton para volver al menu
-			titleBtn.onClick(() => {
-				go('title');
-			});
-			//* Boton para salir
-			exitBtn.onClick(() => {
-				quit();
-				window.close();
-			});
-
-			add(pauseBg);
-			add(continueBtn);
-			add(titleBtn);
-			add(exitBtn);
-
-			//! Dibujado de texto de los botones
-			onDraw(() => {
-				
-				if(pause){
-					//* Boton de continuar
-					let cx = ((width()/2) - (( (7*22.8) + 11.4 + 28 ) / 2));
-					for(let i = 0; i < continueStr.length; i++){
-						if(continueStr[i] === 'I'){
-							drawSprite({
-								sprite: `l${continueStr[i]}`,
-								width: 11.4,
-								height: 24,
-								pos: vec2(cx, 135),
-							});
-							cx += 15.4;
-						}
-						else{
-							drawSprite({
-								sprite: `l${continueStr[i]}`,
-								width: 22.8,
-								height: 24,
-								pos: vec2(cx, 135),
-							});
-							cx += 26.8;
-						}
-					}
-
-					//* Boton de menu
-					let mx = ((width()/2) - (( (4*22.8) + (12) ) / 2));
-					for(let i = 0; i < titleStr.length; i++){
-						drawSprite({
-							sprite: `l${titleStr[i]}`,
-							width: 22.8,
-							height: 24,
-							pos: vec2(mx, 238),
-						});
-						mx += 26.8;
-					}
-
-					//* Boton de salir
-					let ex = ((width()/2) - (( (4*22.8) + 12 ) / 2));
-					for(let i = 0; i < exitStr.length; i++){
-						if(exitStr[i] === 'I'){
-							drawSprite({
-								sprite: `l${exitStr[i]}`,
-								width: 11.4,
-								height: 24,
-								pos: vec2(ex, 338),
-							});
-							ex += 15.4;
-						}
-						else{
-							drawSprite({
-								sprite: `l${exitStr[i]}`,
-								width: 22.8,
-								height: 24,
-								pos: vec2(ex, 338),
-							});
-							ex += 26.8;
-						}
-					}
+					if(pause) setGravity(0);
+					else setGravity(200);
+		
+					if(pause) { stateController.enterState('pause'); plane.play('idle'); }
+					else { stateController.enterState('play'); plane.play('fly') }
 				}
 			});
+			continueBtn.pos.x = (width()/2) - (196/2);
+			continueBtn.pos.y = 120;
+
+			menuBtn = button({
+				btnText: 'Menu',
+				onClickEvent: () => {
+					go('title');
+				}
+			});
+			menuBtn.pos.x = (width()/2) - (196/2);
+			menuBtn.pos.y = 220;
+
+			exitBtn = button({
+				btnText: 'Exit',
+				onClickEvent: () => {
+					quit();
+					window.close();
+				}
+			});
+			exitBtn.pos.x = (width()/2) - (196/2);
+			exitBtn.pos.y = 320;
 		});
 
 		stateController.onStateEnd('pause', () => {
-			destroy(continueBtn);
 			destroy(pauseBg);
-			destroy(titleBtn);
+			destroy(continueBtn);
+			destroy(menuBtn);
 			destroy(exitBtn);
 		});
 

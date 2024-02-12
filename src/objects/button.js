@@ -3,6 +3,7 @@ function button(options = {
     btnSprite: 'buttonLarge',
     btnText: 'Button',
     btnTextColor: rgb(0, 0, 0),
+    btnTextSize: 24,
     pos: vec2(0, 0),
     offset: vec2(0, 0),
     onClickEvent: () => {},
@@ -12,6 +13,7 @@ function button(options = {
 }){
         if(options.btnSprite == undefined) options.btnSprite = 'buttonLarge';
         if(options.btnText == undefined) options.btnText = 'Button';
+        if(options.btnTextSize == undefined) options.btnTextSize = 32;
         if(options.pos == undefined) options.pos = vec2(0, 0);
         if(options.offset == undefined) options.offset = vec2(2, -8);
         if(options.sound == undefined) options.sound = 'click';
@@ -32,6 +34,7 @@ function button(options = {
             const btnText = btn.add([
                 text(options.btnText, {
                     font: 'kfuture',
+                    size: options.btnTextSize,
                 }),
                 pos(),
                 area(),
