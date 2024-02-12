@@ -153,6 +153,7 @@ function titleScene(){
             fixed(),
             anchor('center'),
         ]);
+        if(isTouchscreen()){ cursors.hidden = true; }
 
         onMousePress('left', () => {
             cursors.play('tap');

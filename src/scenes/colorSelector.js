@@ -282,6 +282,7 @@ function colorSelector(){
 		//todo CURSOR
 		//* ---------------------------------------------------------------------------------------------
         const c = add(options.cursor);
+        if(isTouchscreen()){ c.hidden = true; }
         onUpdate(() => {
 			c.pos = mousePos();
 		});

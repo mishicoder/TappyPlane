@@ -10,7 +10,7 @@ const k = kaboom({
     background: [218, 239, 247], //? Color de fondo de la ventana
     debug: true
 });
-debug.inspect = true;
+debug.inspect = false;
 
 //* Establecemeos la ruta principal de los recursos
 loadRoot('resources/');

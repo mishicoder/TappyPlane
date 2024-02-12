@@ -19,6 +19,12 @@ function loadSprites(){
     loadSprite('rs', 'rockSnow.png'); // snow
     loadSprite('rsDown', 'rockSnowDown.png');
 
+    // numeros
+    const numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    for(let i = 0; i < numbers.length; i++){
+        loadSprite(`num${numbers[i]}`, `numbers/number${numbers[i]}.png`);
+    }
+
     // carga de planos
     const colors = ['blue', 'green', 'red', 'yellow'];
     for(let i = 0; i < colors.length; i++){

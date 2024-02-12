@@ -13,10 +13,13 @@ function gameplay(){
 		//todo VARIABLES Y CONSTANTES DE CONTROL | FUNCIONES INICIALES
 		//* ---------------------------------------------------------------------------------------------
 		const rockSpeed = 160; //? Velocidad a la que se moveran las rocas
-		let pause = false; //? Determina si el juego esta en pausa
-		let playerAngle = 35;
+		let pause = true; //? Determina si el juego esta en pausa
+		let ready = false; //? Controla que la animación de inicio se ejecute correctamente
+		let playerAngle = 35; //? Angulo de inclinación de la avioneta
 
-		setGravity(200); //? Establecemos el valor de la gravedad
+		setGravity(0); //? Establecemos el valor de la gravedad
+
+		let points = 0; //? Puntos obetenidos (serán pasados por parámetro)
 
 		//* ---------------------------------------------------------------------------------------------
 		//todo DIBUJADO DEL FONDO CON EFECTO PARALLAX
@@ -72,9 +75,7 @@ function gameplay(){
 		]);
 
 		const player = add([
-			sprite(`${options.playerSprite}Plane`, {
-				anim: 'fly'
-			}),
+			sprite(`${options.playerSprite}Plane`),
 			pos(100, 80),
 			area({
 				shape: new Polygon([
@@ -109,11 +110,66 @@ function gameplay(){
 		});
 
 		//* ---------------------------------------------------------------------------------------------
+		//todo INICIO
+		//* ---------------------------------------------------------------------------------------------
+
+		const t = add([
+			timer(),
+		]);
+
+		const getReady = make([
+			sprite('getReady'),
+			pos(400, 100),
+			scale(0.0),
+			rotate(),
+			anchor('center'),
+		]);
+
+		let grS = 0.0;
+		const scaleL = loop(0.1, () => {
+			grS += 0.016;
+			getReady.scaleTo(grS);
+			
+			if(grS >= 1.0) scaleL.cancel();
+		});
+
+		let timeToStart = 3;
+		let de;
+		const initialTime = loop(1, () => {
+			let tts = timeToStart.toString();
+			try{de.cancel()}catch{}
+			// 53 x 78
+			de = onDraw(() => {
+				drawSprite({
+					sprite: `num${tts}`,
+					pos: vec2(width()/2 - 53/2, height()/2 - 78 / 2),
+				});
+			});
+			
+			timeToStart--;
+		});
+
+		t.wait(3, () => {
+			pause = false;
+			setGravity(200);
+			player.play('fly');
+			destroy(t);
+			initialTime.cancel();
+			de.cancel();
+			ready = true;
+			add(getReady);
+		});
+
+		//* ---------------------------------------------------------------------------------------------
 		//todo FUNCIONES DE FLUJO DE JUEGO
 		//* ---------------------------------------------------------------------------------------------
 
 		loop(1.5, () => {
-			if(!pause)createRocks(rocks, options.rockSprite);
+			//if(!pause)createRocks(rocks, options.rockSprite);
+		});
+
+		loop(0.7, () => {
+			if(!pause)points++;
 		});
 
 		onUpdate('rock', (rock) => {
@@ -126,6 +182,10 @@ function gameplay(){
 		//todo CONTROL DE ENTRADA DE USUARIO
 		//* ---------------------------------------------------------------------------------------------
 
+		onUpdate(() => {
+			if(isTouchscreen()){ console.log('se puede tocar'); }
+		});
+
 		onMousePress('left', () => {
 			if(!pause){
 				player.jump(120);
@@ -134,13 +194,13 @@ function gameplay(){
 		});
 
 		onKeyPress('escape', () => {
-			pause = !pause;
+			if(ready){pause = !pause;
 
 			if(pause) setGravity(0);
 			else setGravity(200);
 
 			if(pause) { stateController.enterState('pause'); player.play('idle'); }
-			else { stateController.enterState('play'); player.play('fly') }
+			else { stateController.enterState('play'); player.play('fly') }}
 		});
 
 
@@ -169,11 +229,30 @@ function gameplay(){
 			});
 		});
 
+		//* ---------------------------------------------------------------------------------------------
+		//todo UI (PARA TOUCH Y KEYBOARD)
+		//* ---------------------------------------------------------------------------------------------
+
+		onDraw(() => {
+			// 53 x 78
+			let pointStr = points.toString();
+			let pointx = 10;
+			for(let i = 0; i < pointStr.length; i++){
+				drawSprite({
+					sprite: `num${pointStr[i]}`,
+					width: 53/2,
+					height: 78/2,
+					pos: vec2(pointx, 10),
+				});
+				pointx += (53/2);
+			}
+		});
 		
 		//* ---------------------------------------------------------------------------------------------
 		//todo CURSOR
 		//* ---------------------------------------------------------------------------------------------
 		const c = add(options.cursor);
+		if(isTouchscreen()){ c.hidden = true; }
 		onUpdate(() => {
 			c.pos = mousePos();
 		});
