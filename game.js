@@ -16,5 +16,8 @@ gameplay();
 gameOver();
 colorSelector();
 
-//* Carga la escena 'title'
-go('title');
+export default function loadGame(){
+    //* Carga la escena 'title'
+    go('title');
+}
+

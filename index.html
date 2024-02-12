@@ -24,11 +24,18 @@
         }
     </style>
 </head>
-<body>
+<body onload="game.instance();">
 
     <canvas id="game"></canvas>
 
     <script type="module" src="./game.js"></script>
+    <script type="text/javascript">
+        const game = {};
+    </script>
+    <script type="module">
+        import loadGame from './game.js';
+        game.instance = loadGame;
+    </script>
     
 </body>
 </html>

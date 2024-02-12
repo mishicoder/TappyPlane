@@ -120,6 +120,7 @@ function gameplay(){
 				cursor: c,
 				score: points,
 				playerSprite: options.playerSprite,
+				p: player
 			});
 		});
 
@@ -206,6 +207,7 @@ function gameplay(){
 					cursor: c,
 					score: points,
 					playerSprite: options.playerSprite,
+					p: player,
 				});
 			}
 		});

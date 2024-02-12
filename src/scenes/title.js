@@ -1,3 +1,4 @@
+import button from '../objects/button.js';
 
 function titleScene(){
 
@@ -7,6 +8,9 @@ function titleScene(){
         //* Cadena de texto del titulo de la escena
         const titleChars = 'TAPPY PLANE';
 
+        //* ---------------------------------------------------------------------------------------------
+		//todo FONDO CON EFECTO PARALLAX
+		//* ---------------------------------------------------------------------------------------------
         //? Dibujado del fondo con efecto paralax (revisar el archivo 'gameplay.js' para mas informacion)
         //? Variables para le movimiento
         let bgx1 = 0;
@@ -42,6 +46,9 @@ function titleScene(){
             if(bgx2 <= -800) bgx2 = 800;
         });
         
+        //* ---------------------------------------------------------------------------------------------
+		//todo TITULO DEL JUEGO
+		//* ---------------------------------------------------------------------------------------------
         // 61 x 64 -> letter size
         //? Funcion de kaboom que nos permite dibujar elementos
         onDraw(() => {
@@ -62,6 +69,10 @@ function titleScene(){
             }
         });
 
+        //* ---------------------------------------------------------------------------------------------
+		//todo AVIONETA QUE VIAJA EN EL EJE X DE LA PANTALLA
+		//* ---------------------------------------------------------------------------------------------
+
         const titlePlane = add([
             sprite('redPlane', {
                 anim: 'fly'
@@ -75,76 +86,33 @@ function titleScene(){
             80
         );
 
-        const playButton = add([
-            sprite('buttonLarge'),
-            fixed(),
-            pos(),
-            anchor('top'),
-            area(),
-        ]);
-        playButton.pos.x = (width()/2) - (playButton.quad.w/2);
-        playButton.pos.y = 180;
-        playButton.onClick(() => {
-            go('colorSelector', {
-                cursor: cursors
-            });
-            /*go('gameplay', {
-                cursor: cursors,
-                playerSprite: 'redPlane',
-            });*/
-        });
-        const playStr = 'PLAY';
-        onDraw(() => {
-            let px = 330;
-            for(let i = 0; i < playStr.length; i++){
-                drawSprite({
-                    sprite: `l${playStr[i]}`,
-                    width: 30.5,
-                    height: 32,
-                    pos: vec2(px, 195)
+        //* ---------------------------------------------------------------------------------------------
+		//todo BOTONES
+		//* ---------------------------------------------------------------------------------------------
+        const btn = button({
+            btnText: 'Play',
+            onClickEvent: () => {
+                go('colorSelector', {
+                    cursor: cursors,
                 });
-                px += 30 + 5;
             }
         });
+        btn.pos.x = (width()/2) - (196/2);
+        btn.pos.y = 195;  
 
-        const exitButton = add([
-            sprite('buttonLarge'),
-            fixed(),
-            pos(),
-            anchor('top'),
-            area(),
-        ]);
-        exitButton.pos.x = (width()/2) - (exitButton.quad.w/2);
-        exitButton.pos.y = 280;
-        exitButton.onClick(() => {
-            quit();
-            window.close();
-        });
-        const exitStr = 'EXIT';
-        onDraw(() => {
-            let ex = 340;
-            for(let i = 0; i < exitStr.length; i++){
-                if(exitStr[i] === 'I'){
-                    drawSprite({
-                        sprite: `l${exitStr[i]}`,
-                        width: 15.25,
-                        height: 32,
-                        pos: vec2(ex, 295)
-                    });
-                    ex += 15.25 + 5
-                }else{
-                    drawSprite({
-                        sprite: `l${exitStr[i]}`,
-                        width: 30.5,
-                        height: 32,
-                        pos: vec2(ex, 295)
-                    });
-                    ex += 30 + 5;
-                }
-                
+        const btnExtir = button({
+            btnText: 'Exit',
+            onClickEvent: () => {
+                quit();
+                window.close();
             }
         });
+        btnExtir.pos.x = (width()/2) - (196/2);
+        btnExtir.pos.y = 295;
 
+         //* ---------------------------------------------------------------------------------------------
+		//todo CURSOR
+		//* ---------------------------------------------------------------------------------------------
         const cursors = add([
             sprite('cursors', {
                 anim: 'idle'
@@ -158,9 +126,7 @@ function titleScene(){
 
         onMousePress('left', () => {
             cursors.play('tap');
-            play('click', {
-                volume: 0.2
-            });
+            
         });
 
         cursors.onAnimEnd((anim) => {

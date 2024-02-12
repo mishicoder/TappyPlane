@@ -1,3 +1,4 @@
+import button from "../objects/button.js";
 
 function colorSelector(){
 
@@ -158,6 +159,7 @@ function colorSelector(){
             area(),
         ]);
         leftBtn.onClick(() => {
+            play('click', { volume: 0.3, });
             if(click){
                 for(let i = 0; i < allPlanes.length; i++){
                     allPlanes[i].show = false;
@@ -195,6 +197,7 @@ function colorSelector(){
             area(),
         ]);
         rightBtn.onClick(() => {
+            play('click', { volume: 0.3, });
             if(click){
                 for(let i = 0; i < allPlanes.length; i++){
                     allPlanes[i].show = false;
@@ -227,56 +230,35 @@ function colorSelector(){
         });
 
         // 196 x 70
-        const selectButton = add([
-            sprite('buttonLarge'),
-            pos(
-                (width()/2) - (196/2),
-                height() - 120
-            ),
-            area(),
-        ]);
-        selectButton.onClick(() => {
-            const rockTypes = [
-                'n', // normal
-                'g', // grass
-                'i', // ice
-                's'  // snow
-            ];
-
-            const groundTypes = [
-                'd', // normal
-                'g', // grass
-                'i', // ice
-                's'  // snow
-            ];
-
-            const rock = randi(0, 4);
-
-            go('gameplay', {
-                cursor: c,
-                playerSprite: colors[currentColor],
-                rockSprite: rockTypes[rock],
-                groundSprite: groundTypes[rock],
-            });
-        });
-
-        const selectBtnStr = 'SELECT';
-        // 30.5 x 32
-        onDraw(() => {
-            let x = ((width()/2) - ((6 * 22.8) + 20) / 2);
-            for(let i = 0; i < selectBtnStr.length; i++){
-                drawSprite({
-                    sprite: `l${selectBtnStr[i]}`,
-                    width: 22.8, // -7.7
-                    height: 24, // -8
-                    pos: vec2(
-                        x,
-                        height() - (99)
-                    )
+        const selectBtn = button({
+            btnText: 'Select',
+            onClickEvent: () => {
+                const rockTypes = [
+                    'n', // normal
+                    'g', // grass
+                    'i', // ice
+                    's'  // snow
+                ];
+    
+                const groundTypes = [
+                    'd', // normal
+                    'g', // grass
+                    'i', // ice
+                    's'  // snow
+                ];
+    
+                const rock = randi(0, 4);
+    
+                go('gameplay', {
+                    cursor: c,
+                    playerSprite: colors[currentColor],
+                    rockSprite: rockTypes[rock],
+                    groundSprite: groundTypes[rock],
                 });
-                x += 26.8;
             }
         });
+        selectBtn.pos.x = (width()/2) - (196/2);
+        selectBtn.pos.y = height() - 120;
 
         //* ---------------------------------------------------------------------------------------------
 		//todo CURSOR

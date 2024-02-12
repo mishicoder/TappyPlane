@@ -29,7 +29,7 @@ function createRocks(parent, rockSprite){
             shape: new Polygon([
                 vec2(0, 0),
 				vec2(108, 0),
-				vec2(66, 237)
+				vec2(66, 237),
             ])
         }),
         'rock',
