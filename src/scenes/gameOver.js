@@ -9,9 +9,6 @@ function gameOver(){
 		p,
 	}) => {
 
-		const bronzePoints = 0;
-		const silverPoints = 500;
-		const goldPoints = 1000;
 		let titleY = -90;
 
 		setGravity(0);
@@ -23,6 +20,55 @@ function gameOver(){
 			c.pos = mousePos();
 		});
 
+		//* ---------------------------------------------------------------------------------------------
+		//todo DIBUJADO DEL FONDO CON EFECTO PARALLAX
+		//* ---------------------------------------------------------------------------------------------
+		//? Fondo parallax
+		/**
+		 ** Esta formna de dibujar el fondo parallax es el mas comun, ya que podemos hacer un fondo con efecto de movimiento horizontal
+		 ** Solo hace falta dibujar la imagen de fondo dos veces y hacer que una corra detras de la otra
+		*/
+
+		let bgx1 = 0; //? Posicion en x del primer sprite de fondo
+		let bgx2 = 800; //? Posicion en x del segundo sprite de fondo
+
+		onUpdate(() => {
+			//* Actualizamos la posicion del fondo siemnpre y cuando el juego no este pausado
+			bgx1 -= 2;
+			bgx2 -= 2;
+
+			//* Reposicionamos los sprites de fondo cuando salen de la pantalla
+			if(bgx1 <= -800){
+				bgx1 = 800;
+			}
+			if(bgx2 <= -800){
+				bgx2 = 800;
+			}
+		});
+
+		onDraw(() => {
+			//* Se dibujan los sprites de fondo, uno siempre sigue al otro para crear el efecto de parallax
+			//! primer dibujado
+			drawSprite({
+				sprite: 'background',
+				width: 800,
+				height: 480,
+				pos: vec2(bgx1, 0),
+			});
+
+			//! segundo dibujado
+			drawSprite({
+				sprite: 'background',
+				width: 800,
+				height: 480,
+				pos: vec2(bgx2, 0),
+			});
+		});
+
+		//* ---------------------------------------------------------------------------------------------
+		//todo DIBUJADO DEL TITULO
+		//* ---------------------------------------------------------------------------------------------
+
 		onDraw(() => {
 
 			drawSprite({
@@ -31,6 +77,7 @@ function gameOver(){
 			});
 
 		});
+		
 		//* ---------------------------------------------------------------------------------------------
 		//todo PUNTAJE
 		//* ---------------------------------------------------------------------------------------------
@@ -52,9 +99,9 @@ function gameOver(){
 		]);
 
 		let medalSprite;
-		if(options.score < 500) medalSprite = 'Bronze';
-		if(options.score > 500 && options.score < 1000) medalSprite = 'Silver';
-		if(options.score > 1000) medalSprite = 'Gold';
+		if(options.score < 250) medalSprite = 'Bronze';
+		if(options.score > 250 && options.score < 500) medalSprite = 'Silver';
+		if(options.score >= 1000) medalSprite = 'Gold';
 
 		const medal = add([
 			sprite(`medal${medalSprite}`),
@@ -107,7 +154,8 @@ function gameOver(){
 				});
 			}
 		});
-		btn.pos.x = width() - (btn.width + 100);
+		const btnMaxX = width() - (btn.width + 100);
+		btn.pos.x = 800;
 		btn.pos.y = 130;
 
 		const btnMenu = button({
@@ -116,7 +164,8 @@ function gameOver(){
 				go('title');
 			}
 		});
-		btnMenu.pos.x = width() - (btnMenu.width + 100);
+		const btnMenuMaxX = width() - (btnMenu.width + 100);
+		btnMenu.pos.x = 800;
 		btnMenu.pos.y = 230;
 
 		const btnExit = button({
@@ -126,8 +175,22 @@ function gameOver(){
 				window.close();
 			}
 		});
-		btnExit.pos.x = width() - (btnExit.width + 100);
+		const btnExitMaxX = width() - (btnExit.width + 100);
+		btnExit.pos.x = 800;
 		btnExit.pos.y = 330;
+
+		const buttonSpeed = 8;
+
+		onUpdate(() => {
+			if(btn.pos.x > btnMaxX) btn.pos.x -= buttonSpeed;
+			if(btn.pos.x < btnMaxX) btn.pos.x = btnMaxX;
+
+			if(btnMenu.pos.x > btnMenuMaxX) btnMenu.pos.x -= buttonSpeed;
+			if(btnMenu.pos.x < btnMenuMaxX) btnMenu.pos.x = btnMenuMaxX;
+
+			if(btnExit.pos.x > btnExitMaxX) btnExit.pos.x -= buttonSpeed;
+			if(btnExit.pos.x < btnExitMaxX) btnExit.pos.x = btnExitMaxX;
+		});
 
 	});
 
