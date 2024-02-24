@@ -92,7 +92,7 @@ function titleScene(){
         const btn = button({
             btnText: 'Play',
             onClickEvent: () => {
-                go('colorSelector', {
+                go('tutorial', {
                     cursor: cursors,
                 });
             }
@@ -141,30 +141,8 @@ function titleScene(){
             }
 
             cursors.pos = mousePos();
-        });
-
-        onDraw(() => {
-            drawSprite({
-                sprite: 'rn',
-                width: 25,
-                height: -50,
-                tile: true,
-                pos: vec2(20, 120)
-            });
-
-            drawSprite({
-                sprite: 'rn',
-                width: 25,
-                height: 50,
-                tile: true,
-                pos: vec2(20, 180)
-            });
-        });
-        
-
+        });   
     });
-
-    
 }
 
 export default titleScene;

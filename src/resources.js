@@ -124,10 +124,85 @@ function loadSprites(){
             },
         }
     });
+    // tutorial
+    loadSprite('pc_tutorial', 'UI/pc_tuto.png', {
+        x: 0,
+        y: 0,
+        sliceX: 5,
+        sliceY: 5,
+        anims: {
+            idle: {
+                from: 0,
+                to: 23,
+                loop: true,
+                speed: 32
+            }
+        }
+    });
+    loadSprite('mobile_tutorial', 'UI/mobile_tuto.png', {
+        x: 0,
+        y: 0,
+        sliceX: 5,
+        sliceY: 5,
+        anims: {
+            idle: {
+                from: 0,
+                to: 23,
+                loop: true,
+                speed: 32
+            }
+        }
+    });
+    // tuto rocks
+    loadSprite('rocksTuto', 'UI/rockTuto.png', {
+        x: 0, 
+        y: 0,
+        sliceX: 5,
+        sliceY: 4,
+        anims: {
+            idle: {
+                from: 0,
+                to: 19,
+                loop: true,
+                speed: 32
+            }
+        }
+    });
+    // tuto stars
+    loadSprite('starsTuto', 'UI/starsTuto.png', {
+        x: 0,
+        y: 0,
+        sliceX: 7,
+        sliceY: 4,
+        anims: {
+            idle: {
+                from: 0,
+                to: 27,
+                loop: true,
+                speed: 32
+            }
+        }
+    });
+
     // medals
     loadSprite('medalBronze', 'UI/medalBronze.png');
     loadSprite('medalSilver', 'UI/medalSilver.png');
     loadSprite('medalGold', 'UI/medalGold.png');
+    // circle red
+    loadSprite('circleRed', 'UI/circleRed.png', {
+        x: 0,
+        y: 0,
+        sliceX: 3,
+        sliceY: 3,
+        anims: {
+            idle: {
+                from: 0,
+                to: 8,
+                loop: false,
+                speed: 2
+            }
+        }
+    });
 
     // ground
     loadSprite('groundDirt', 'groundDirt.png');
@@ -136,6 +211,9 @@ function loadSprites(){
 //? Carga todos los sonidos para el juego
 function loadSounds(){
     loadSound('click', 'sounds/click.ogg');
+    loadSound('select', 'sounds/select.ogg');
+    loadSound('lose', 'sounds/lose03.ogg');
+    loadSound('toGame', 'sounds/newLife.ogg');
 }
 
 //? 
