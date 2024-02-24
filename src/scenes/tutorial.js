@@ -12,7 +12,7 @@ function tutorial(){
 
         const spriteID = isTouchscreen() ? 'mobile_tutorial' : 'pc_tutorial';
         const textToShow = isTouchscreen() ? 'Toque la pantalla para elevar la avioneta' : 'Click en la pantalla para elevar la avioneta';
-        const rockTutoMessage = 'Evite chocar contra las rocas.'
+        const rockTutoMessage = 'Evite chocar contra las rocas'
         const starTutoMessage = 'Recolecte la mayor cantidad de estrellas'
 
         const c = add(options.cursor);
@@ -55,6 +55,13 @@ function tutorial(){
 				pos: vec2(bgx2, 0),
 			});
 		});
+
+        add([
+            rect(width(), height()),
+            pos(0, 0),
+            color(45, 45, 45),
+            opacity(0.38),   
+        ]);
 
         const title = add([
             text('TUTORIAL', {
