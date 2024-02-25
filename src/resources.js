@@ -188,6 +188,10 @@ function loadSprites(){
     loadSprite('medalBronze', 'UI/medalBronze.png');
     loadSprite('medalSilver', 'UI/medalSilver.png');
     loadSprite('medalGold', 'UI/medalGold.png');
+    // stars
+    loadSprite('starBronze', 'UI/starBronze.png');
+    loadSprite('starSilver', 'UI/starSilver.png');
+    loadSprite('starGold', 'UI/starGold.png');
     // circle red
     loadSprite('circleRed', 'UI/circleRed.png', {
         x: 0,

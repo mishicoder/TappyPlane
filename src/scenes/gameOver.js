@@ -91,8 +91,8 @@ function gameOver(){
 		]);
 
 		let medalSprite;
-		if(options.score <= 250) medalSprite = 'Bronze';
-		if(options.score > 250 && options.score <= 500) medalSprite = 'Silver';
+		if(options.score <= 500) medalSprite = 'Bronze';
+		if(options.score > 500 && options.score < 1000) medalSprite = 'Silver';
 		if(options.score > 1000) medalSprite = 'Gold';
 
 		const medal = add([

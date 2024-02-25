@@ -6,7 +6,7 @@ function createRocks(parent, rockSprite){
     const offset = rand(-50, 50);
 
     //* Bottom 
-    parent.add([
+    const rock = parent.add([
         sprite(`r${rockSprite}`),
         pos(width(), height()/2 + offset + ROCK_GAP / 2),
         offscreen({ destroy: true }),
@@ -34,6 +34,42 @@ function createRocks(parent, rockSprite){
         }),
         'rock',
     ]);
+    //* Star
+    let bronze = chance(1.0);
+    let silver = chance(0.25);
+    let gold = chance(0.1);
+
+    if(bronze && !silver && !gold){
+        rock.add([
+            sprite('starBronze'),
+            pos(
+                (rock.width/2 - 39/2) + 8,
+                -((135/2) + (38/2))
+            ),
+            area(),
+            'bronze'
+        ]);
+    }else if(silver && !gold){
+        rock.add([
+            sprite('starSilver'),
+            pos(
+                (rock.width/2 - 39/2) + 8,
+                -((135/2) + (38/2))
+            ),
+            area(),
+            'silver'
+        ]);
+    }else if(gold){
+        rock.add([
+            sprite('starGold'),
+            pos(
+                (rock.width/2 - 39/2) + 8,
+                -((135/2) + (38/2))
+            ),
+            area(),
+            'gold'
+        ]);
+    }
 
 }
 

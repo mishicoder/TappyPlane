@@ -15,6 +15,10 @@ function tutorial(){
         const rockTutoMessage = 'Evite chocar contra las rocas'
         const starTutoMessage = 'Recolecte la mayor cantidad de estrellas'
 
+        let clickTutoOk = false;
+        let rockTutoOk = false;
+        let starsTutoOk = false;
+
         const c = add(options.cursor);
         onUpdate(() => {
             c.pos = mousePos();
@@ -108,21 +112,21 @@ function tutorial(){
             //todo Mostrar
             if(currentGuide === 0){
                 if(guide.pos.x < guideMaxX) guide.pos.x += 20;
-                if(guide.pos.x > guideMaxX) guide.pos.x = guideMaxX;
+                if(guide.pos.x > guideMaxX) { guide.pos.x = guideMaxX; clickTutoOk = true; }
 
                 guideTextA.text = textToShow;
                 guideTextA.pos.x = (width()/2) - (guideTextA.width/2);
             }
             if(currentGuide === 1){
                 if(rockGuide.pos.x < rocksTutoMaxX) rockGuide.pos.x += 20;
-                if(rockGuide.pos.x > rocksTutoMaxX) rockGuide.pos.x = rocksTutoMaxX;
+                if(rockGuide.pos.x > rocksTutoMaxX) { rockGuide.pos.x = rocksTutoMaxX; rockTutoOk = true; }
                 
                 guideTextA.text = rockTutoMessage;
                 guideTextA.pos.x = (width()/2) - (guideTextA.width/2);
             }
             if(currentGuide === 2){
                 if(starsGuide.pos.x < starsTutoMaxX) starsGuide.pos.x += 20;
-                if(starsGuide.pos.x > starsTutoMaxX) starsGuide.pos.x = starsTutoMaxX;
+                if(starsGuide.pos.x > starsTutoMaxX) { starsGuide.pos.x = starsTutoMaxX; starsTutoOk = true; }
 
                 guideTextA.text = starTutoMessage;
                 guideTextA.pos.x = (width()/2) - (guideTextA.width/2);
@@ -130,22 +134,25 @@ function tutorial(){
 
             //todo Ocultar
             if(currentGuide !== 0){
+                clickTutoOk = false; 
                 if(guide.pos.x >= guideMaxX && guide.pos.x < width()){
                     guide.pos.x += 20;
                 }
-                if(guide.pos.x >= width()) guide.pos.x = -189;
+                if(guide.pos.x >= width()) { guide.pos.x = -189; }
             }
             if(currentGuide !== 1){
+                rockTutoOk = false;
                 if(rockGuide.pos.x >= rocksTutoMaxX && rockGuide.pos.x < width()){
                     rockGuide.pos.x += 20;
                 }
-                if(rockGuide.pos.x >= width()) rockGuide.pos.x = -117;
+                if(rockGuide.pos.x >= width()) { rockGuide.pos.x = -117; }
             }
             if(currentGuide !== 2){
+                starsTutoOk = false; 
                 if(starsGuide.pos.x >= starsTutoMaxX && starsGuide.pos.x < width()){
                     starsGuide.pos.x += 20;
                 }
-                if(starsGuide.pos.x >= width()) starsGuide.pos.x = -165;
+                if(starsGuide.pos.x >= width()) { starsGuide.pos.x = -165; }
             }
 
             //todo Boton
@@ -199,12 +206,18 @@ function tutorial(){
             }
         });
 
-        onKeyPress("space", () => {
-            currentGuide++;
-        })        
+        onClick(() => {
+            if(clickTutoOk || rockTutoOk || starsTutoOk){
+                currentGuide++;
+                if(currentGuide >= 3) {
+                    currentGuide = 0
+                    if(!isReady) isReady = true;
+                };
+                circleRed.play('idle');
+            }
+        });
 
-    });
-
+    }); // fin de la escena
 }
 
 export default tutorial;

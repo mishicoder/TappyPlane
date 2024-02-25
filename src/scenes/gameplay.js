@@ -21,6 +21,10 @@ function gameplay(){
 		let isOver = false;
 		let playerAngle = 35; //? Angulo de inclinación de la avioneta
 
+		const BRONZE_POINTS = 10;
+		const SILVER_POINTS = 30;
+		const GOLD_POINTS = 50;
+
 		setGravity(0); //? Establecemos el valor de la gravedad
 
 		let points = 0; //? Puntos obetenidos (serán pasados por parámetro)
@@ -124,6 +128,7 @@ function gameplay(){
 				pause = true;
 				isOver = true;
 				const loseSound = play('lose', { volume: 0.5 });
+				shake(20);
 				loseSound.onEnd(() => {
 					go('gameOver', {
 						cursor: c,
@@ -134,6 +139,10 @@ function gameplay(){
 				});
 			}
 		});
+
+		player.onCollide('bronze', (star) => { points += BRONZE_POINTS; destroy(star); });
+		player.onCollide('silver', (star) => { points += SILVER_POINTS; destroy(star); });
+		player.onCollide('gold', (star) => { points += GOLD_POINTS; destroy(star); })
 
 		//* ---------------------------------------------------------------------------------------------
 		//todo INICIO
@@ -209,12 +218,8 @@ function gameplay(){
 			if(!pause)createRocks(rocks, options.rockSprite);
 		});
 
-		loop(0.7, () => {
-			if(!pause)points += 2;
-		});
-
 		onUpdate(() => {
-			if(player.pos.y > height() && !isOver){
+			if((player.pos.y > height() || player.pos.y < -73 ) && !isOver){
 				
 				pause = true;
 				isOver = true;
