@@ -98,7 +98,7 @@ function titleScene(){
             }
         });
         btn.pos.x = (width()/2) - (196/2);
-        btn.pos.y = 195;  
+        btn.pos.y = 175;  
 
         const btnExtir = button({
             btnText: 'Exit',
@@ -108,7 +108,14 @@ function titleScene(){
             }
         });
         btnExtir.pos.x = (width()/2) - (196/2);
-        btnExtir.pos.y = 295;
+        btnExtir.pos.y = 275;
+
+        const creditsBtn = button({
+            btnText: 'Credits',
+            onClickEvent: () => { go('credits', cursors) }
+        });
+        creditsBtn.pos.x = (width()/2) - (196/2);
+        creditsBtn.pos.y = 375;
 
          //* ---------------------------------------------------------------------------------------------
 		//todo CURSOR

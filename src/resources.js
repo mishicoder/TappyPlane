@@ -208,6 +208,11 @@ function loadSprites(){
         }
     });
 
+    // icons
+    loadSprite('instagram-icon', 'UI/instagram.png');
+    loadSprite('itchio-icon', 'UI/itchio.png');
+    loadSprite('web-icon', 'UI/web.png');
+
     // ground
     loadSprite('groundDirt', 'groundDirt.png');
 }
